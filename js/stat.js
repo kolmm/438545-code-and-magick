@@ -36,18 +36,14 @@ function renderTitle(ctx) {
   ctx.fillText('Список результатов:', titleX, titleY + GAP * 2);
 }
 
-window.renderStatistics = function (ctx, names, times) {
+function renderHistogram(ctx, names, times) {
   var maxTime = getMaxElement(times);
-
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
-  renderTitle(ctx);
+  var MY_COLOR = 'rgba(255, 0, 0, 1)';
+  var PLAYERS_COLOR = 'rgba(0, 0, 255, ' + Math.random() + ')';
 
   for (var i = 0; i < names.length; i++) {
     var roundedTime = Math.round(times[i]);
     var histogramX = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
-    var MY_COLOR = 'rgba(255, 0, 0, 1)';
-    var PLAYERS_COLOR = 'rgba(0, 0, 255, ' + Math.random() + ')';
     var calcBarHeight = (barHeight * times[i]) / maxTime;
 
     ctx.fillStyle = ((names[i] === 'Вы') ? MY_COLOR : PLAYERS_COLOR);
@@ -56,4 +52,11 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillRect(histogramX, CLOUD_HEIGHT - calcBarHeight - textHeight + GAP, BAR_WIDTH, calcBarHeight - GAP);
     ctx.fillText(names[i], histogramX, CLOUD_HEIGHT - GAP);
   }
+}
+
+window.renderStatistics = function (ctx, names, times) {
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderTitle(ctx);
+  renderHistogram(ctx, names, times);
 };
