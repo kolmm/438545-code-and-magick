@@ -7,10 +7,10 @@ var CLOUD_Y = 10;
 var titleX = CLOUD_X + 20;
 var titleY = CLOUD_Y + 30;
 var GAP = 10;
-var textHeight = 30;
+var TEXT_HEIGHT = 30;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
-var barHeight = CLOUD_HEIGHT - titleY - BAR_GAP - textHeight;
+var barHeight = CLOUD_HEIGHT - titleY - BAR_GAP - TEXT_HEIGHT;
 
 function renderCloud(ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -48,8 +48,8 @@ function renderHistogram(ctx, names, times) {
 
     ctx.fillStyle = ((names[i] === 'Вы') ? MY_COLOR : PLAYERS_COLOR);
 
-    ctx.fillText(roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - textHeight);
-    ctx.fillRect(histogramX, CLOUD_HEIGHT - calcBarHeight - textHeight + GAP, BAR_WIDTH, calcBarHeight - GAP);
+    ctx.fillText(roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT);
+    ctx.fillRect(histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT + GAP, BAR_WIDTH, calcBarHeight - GAP);
     ctx.fillText(names[i], histogramX, CLOUD_HEIGHT - GAP);
   }
 }
