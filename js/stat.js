@@ -4,11 +4,13 @@ var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
+var titleX = CLOUD_X + 20;
+var titleY = CLOUD_Y + 30;
 var GAP = 10;
 var textHeight = 30;
 var BAR_WIDTH = 40;
-var barHeight = CLOUD_HEIGHT - (CLOUD_Y + GAP) * 3 - textHeight;
 var BAR_GAP = 50;
+var barHeight = CLOUD_HEIGHT - titleY - BAR_GAP - textHeight;
 
 function renderCloud(ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -30,8 +32,8 @@ function getMaxElement(arr) {
 function renderTitle(ctx) {
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
-  ctx.fillText('Ура вы победили!', CLOUD_X + GAP, CLOUD_Y + GAP * 2);
-  ctx.fillText('Список результатов:', CLOUD_X + GAP, CLOUD_Y + GAP * 3);
+  ctx.fillText('Ура вы победили!', titleX, titleY);
+  ctx.fillText('Список результатов:', titleX, titleY + GAP * 2);
 }
 
 window.renderStatistics = function (ctx, names, times) {
@@ -42,14 +44,16 @@ window.renderStatistics = function (ctx, names, times) {
   renderTitle(ctx);
 
   for (var i = 0; i < names.length; i++) {
-    var time = Math.floor(times[i]);
-    var YOUR_COLOR = 'rgba(255, 0, 0, 1)';
-    var PLAYERS_COLOR = 'rgba(0, 0, 255, ' + Math.random() + ' )';
+    var roundedTime = Math.round(times[i]);
+    var histogramX = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
+    var MY_COLOR = 'rgba(255, 0, 0, 1)';
+    var PLAYERS_COLOR = 'rgba(0, 0, 255, ' + Math.random() + ')';
+    var calcBarHeight = (barHeight * times[i]) / maxTime;
 
-    ctx.fillStyle = ((names[i] === 'Вы') ? YOUR_COLOR : PLAYERS_COLOR);
+    ctx.fillStyle = ((names[i] === 'Вы') ? MY_COLOR : PLAYERS_COLOR);
 
-    ctx.fillText(time, CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - (barHeight * times[i]) / maxTime - textHeight);
-    ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - (barHeight * times[i]) / maxTime - textHeight + GAP, BAR_WIDTH, (barHeight * times[i]) / maxTime);
-    ctx.fillText(names[i], CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT);
+    ctx.fillText(roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - textHeight);
+    ctx.fillRect(histogramX, CLOUD_HEIGHT - calcBarHeight - textHeight + GAP, BAR_WIDTH, calcBarHeight - GAP);
+    ctx.fillText(names[i], histogramX, CLOUD_HEIGHT - GAP);
   }
 };
