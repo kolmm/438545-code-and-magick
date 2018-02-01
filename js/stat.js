@@ -36,7 +36,7 @@ function renderText(ctx, text, x, y, color) {
 }
 
 function renderTitle(ctx) {
-  ctx.font = '16px PT Mono';
+  ctx.font = mainFont;
   renderText(ctx, 'Ура вы победили!', titleX, titleY);
   renderText(ctx, 'Список результатов:', titleX, titleY + GAP * 2);
 }
