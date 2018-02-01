@@ -11,6 +11,7 @@ var TEXT_HEIGHT = 30;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var barHeight = CLOUD_HEIGHT - titleY - BAR_GAP - TEXT_HEIGHT;
+var mainFont = '16px PT Mono';
 
 function renderCloud(ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -29,11 +30,15 @@ function getMaxElement(arr) {
   return maxElement;
 }
 
+function renderText(ctx, text, x, y, color) {
+  ctx.fillStyle = color || '#000';
+  ctx.fillText(text, x, y);
+}
+
 function renderTitle(ctx) {
-  ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
-  ctx.fillText('Ура вы победили!', titleX, titleY);
-  ctx.fillText('Список результатов:', titleX, titleY + GAP * 2);
+  renderText(ctx, 'Ура вы победили!', titleX, titleY);
+  renderText(ctx, 'Список результатов:', titleX, titleY + GAP * 2);
 }
 
 function renderHistogram(ctx, names, times) {
