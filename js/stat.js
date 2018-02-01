@@ -50,12 +50,11 @@ function renderHistogram(ctx, names, times) {
     var roundedTime = Math.round(times[i]);
     var histogramX = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
     var calcBarHeight = (barHeight * times[i]) / maxTime;
+    var histogramColor = ((names[i] === 'Вы') ? MY_COLOR : PLAYERS_COLOR);
 
-    ctx.fillStyle = ((names[i] === 'Вы') ? MY_COLOR : PLAYERS_COLOR);
-
-    ctx.fillText(roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT);
+    renderText(ctx, roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT, histogramColor);
     ctx.fillRect(histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT + GAP, BAR_WIDTH, calcBarHeight - GAP);
-    ctx.fillText(names[i], histogramX, CLOUD_HEIGHT - GAP);
+    renderText(ctx, names[i], histogramX, CLOUD_HEIGHT - GAP);
   }
 }
 
