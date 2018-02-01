@@ -13,9 +13,19 @@ var BAR_GAP = 50;
 var barHeight = CLOUD_HEIGHT - titleY - BAR_GAP - TEXT_HEIGHT;
 var mainFont = '16px PT Mono';
 
-function renderCloud(ctx, x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+function renderText(ctx, text, x, y, color) {
+  ctx.fillStyle = color || '#000';
+  ctx.fillText(text, x, y);
+}
+
+function renderRect(ctx, x, y, width, height, color) {
+  ctx.fillStyle = color || '#000';
+  ctx.fillRect(x, y, width, height);
+}
+
+function renderCloud(ctx) {
+  renderRect(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, CLOUD_WIDTH, CLOUD_HEIGHT, 'rgba(0, 0, 0, 0.7)');
+  renderRect(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT, '#fff');
 }
 
 function getMaxElement(arr) {
@@ -28,11 +38,6 @@ function getMaxElement(arr) {
   }
 
   return maxElement;
-}
-
-function renderText(ctx, text, x, y, color) {
-  ctx.fillStyle = color || '#000';
-  ctx.fillText(text, x, y);
 }
 
 function renderTitle(ctx) {
@@ -52,15 +57,14 @@ function renderHistogram(ctx, names, times) {
     var calcBarHeight = (barHeight * times[i]) / maxTime;
     var histogramColor = ((names[i] === 'Вы') ? MY_COLOR : PLAYERS_COLOR);
 
-    renderText(ctx, roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT, histogramColor);
-    ctx.fillRect(histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT + GAP, BAR_WIDTH, calcBarHeight - GAP);
+    renderText(ctx, roundedTime, histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT);
+    renderRect(ctx, histogramX, CLOUD_HEIGHT - calcBarHeight - TEXT_HEIGHT + GAP, BAR_WIDTH, calcBarHeight - GAP, histogramColor);
     renderText(ctx, names[i], histogramX, CLOUD_HEIGHT - GAP);
   }
 }
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderCloud(ctx);
   renderTitle(ctx);
   renderHistogram(ctx, names, times);
 };
